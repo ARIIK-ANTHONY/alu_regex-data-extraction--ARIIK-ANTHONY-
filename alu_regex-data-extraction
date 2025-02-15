@@ -1,0 +1,72 @@
+#!/usr/bin/python3
+
+import re
+
+#First_task : Email addresses
+def validate_email(api_response):
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    matches = re.findall(pattern, api_response)
+    return matches
+
+
+api_response = "a.ariik@alustudent.com"
+emails = validate_email(api_response)
+print(f"Email Validated: {emails}")
+
+api_response = "firstname.lastname@company.co.uk"
+emails = validate_email(api_response)
+print(f"Email Validated: {emails}")
+
+
+#Second_task : URLs
+def validate_url(api_response):
+    pattern = r'^(https?:\/\/(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}(?:\/[a-zA-Z0-9\-\/]*)?)$'
+    matches = re.findall(pattern, api_response)
+    return matches
+
+api_response = "https://www.example.com"
+urls = validate_url(api_response)
+print(f"URL Validated: {urls}")
+
+
+#Third_task : Credit card numbers (various formats)
+def validate_credit_card(api_response):
+    pattern = r'^\d{4}[\s.-]?\d{4}[\s.-]?\d{4}[\s.-]?\d{4}$'
+    matches = re.findall(pattern, api_response)
+    return matches
+
+
+
+api_response = "1234 5678 9012 3456"
+credit_cards = validate_credit_card(api_response)
+print(f"Credit Card Validated: {credit_cards}")
+
+api_response = "1234-5678-9012-3456"
+credit_cards = validate_credit_card(api_response)
+print(f"Credit Card Validated: {credit_cards}")
+
+
+
+
+#Fourth_task : Currency amounts
+def validate_currency(api_response):
+    pattern = r'^\$([0-9]{1,3}(?:,([0-9]{3}))*)\.(\d{2})$|^\$([0-9]+)(\.\d{2})?$'
+    matches = re.findall(pattern, api_response)
+    
+    
+    result = []
+    for match in matches:
+        if match[0]:  
+            result.append(f"${match[0]}.{match[2]}")
+        elif match[3]:  
+            result.append(f"${match[3]}{match[4] if match[4] else ''}")
+    return result
+
+
+api_response = "$19.99"
+currency = validate_currency(api_response)
+print(f"Currency Validated: {currency}") 
+
+api_response = "$1,234.56"
+currency = validate_currency(api_response)
+print(f"Currency Validated: {currency}")  
